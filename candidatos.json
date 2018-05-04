@@ -1,0 +1,20 @@
+{ "palabras_claves": [ "seguridad","corrupción","oportunidad","educación","trabajo" ],
+	"Candidatos":{ 
+		"charly":[2,1,2,0,1], 
+		"celida":[0,4,1,1,0],
+		"pato":[0,0,0,0,0],
+		"myrna":[0,0,0,0,0],
+		"gustavo":[0,0,1,0,5],
+		"curie":[0,0,0,0,0],
+		"Lorenzo":[0,0,0,0,0],
+		"everardo":[0,0,0,0,0],
+		"emeterio":[0,0,0,0,0],
+		"virgilio":[0,0,0,0,0],
+		"sara":[0,0,0,0,0],
+		"pujo":[0,0,0,0,0],
+		"gato":[0,0,0,0,0],
+		"rodrigo":[0,0,0,0,0],
+		"barra":[0,0,0,0,0]
+	 }
+}
+
