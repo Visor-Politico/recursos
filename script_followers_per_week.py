@@ -7,11 +7,14 @@ import csv
 import sys
 from collections import Counter
 
-####Credenciales para uso del tweepy
-consumer_key = ''
-consumer_secret = ''
-access_token = '-'
-access_token_secret = ''
+####Credenciales para uso del tweepyconsumer_key = ''
+
+consumer_key = 'WbaP94BKvPV0onNipttz8GxJh'
+consumer_secret = 'sA3vrhAaUeHNKWDUHsbyURjRhjNIXrzw4Ns1buSnxIvrST4L42'
+access_token = '2691538652-PLw61qVoUYHcAE2HiFN0FunRC9tVAcy5PgYC6nO'
+access_token_secret = 'MjCh36tExJBtASapozPnlB3T2dhOZbqjLwzqTw0EsSYVO'
+
+
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -63,6 +66,8 @@ with open(key_words, 'rU') as f:
 #Las llaves de tipo objecto son llaves que se cambian en su totalidad cada semana
 keys_array = ["seguidores","tweets","tweets_semana","palabras_clave"]
 keys_object = ["data"]
+
+print (candidatos)
 
 #Validacion del csv con nuestro json
 #Checamos los candidatos en nuestro csv con los que tenemos en el json
