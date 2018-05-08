@@ -14,8 +14,6 @@ consumer_secret = 'sA3vrhAaUeHNKWDUHsbyURjRhjNIXrzw4Ns1buSnxIvrST4L42'
 access_token = '2691538652-PLw61qVoUYHcAE2HiFN0FunRC9tVAcy5PgYC6nO'
 access_token_secret = 'MjCh36tExJBtASapozPnlB3T2dhOZbqjLwzqTw0EsSYVO'
 
-
-
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth,wait_on_rate_limit=True)
@@ -67,7 +65,16 @@ with open(key_words, 'rU') as f:
 keys_array = ["seguidores","tweets","tweets_semana","palabras_clave"]
 keys_object = ["data"]
 
-print (candidatos)
+
+#Si existe un usuario en el json pero no en el csv, es decir que ha sido removido del csv entonces lo borramos del json.
+candidatos_nombres = []
+for candidato in candidatos:
+    candidatos_nombres.append(candidato[nombre])
+
+for key_candidato in list(jsonData):
+    if not key_candidato in candidatos_nombres:
+        jsonData.pop(key_candidato)
+
 
 #Validacion del csv con nuestro json
 #Checamos los candidatos en nuestro csv con los que tenemos en el json
@@ -98,7 +105,6 @@ now = time.mktime(datetime.datetime(_now.year, _now.month , _now.day).timetuple(
 def cuentaPalabrasClave(tweets):
     counts = Counter([item for sublist in [x.split() for x in [x.text for x in tweets]] for item in sublist])
     return [counts[key] for key in csvData_words]
-
 
 #Checamos todos los candidatos
 for candidato in candidatos:
@@ -177,9 +183,8 @@ for candidato in candidatos:
         ])
         #Numero de palabras clave
 
-        jsonData[candidato[nombre]]["palabras_clave"].append(
-            cuentaPalabrasClave(tweets)
-        )
+        jsonData[candidato[nombre]]["palabras_clave"] = cuentaPalabrasClave(tweets)
+
     #Si el candidato no tiene twitter, llenamos su informacion basica publica y aclaramos que no tiene twitter
     else:
         jsonData[candidato[nombre]]["data"] = {
@@ -192,6 +197,15 @@ for candidato in candidatos:
             "picture": "../img/no_image.png",
             "tweets": 0
         }
+
+#Limpiamos el json para borrar fechas repitidas
+
+for _key in jsonData:
+    for element in jsonData[_key]:
+        if type(jsonData[_key][element]) is list and element != 'palabras_clave':
+            element_ = set(map(tuple,jsonData[_key][element]))
+            jsonData[_key][element] = map(list,element_)
+            jsonData[_key][element].sort(key=lambda x: x[0])
 
 with open(path_to_json, 'w') as outfile:
     json.dump(jsonData, outfile)
