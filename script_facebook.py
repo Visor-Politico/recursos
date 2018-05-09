@@ -15,7 +15,7 @@ import requests
 
 #Llamada para obtener los datos
 def request_facebook(req):
-    r = requests.get("https://graph.facebook.com/v2.10/" + req , {"access_token" : "EAACEdEose0cBAMstGOP1MpP9y3FOBOlqXCAHAlsQ69tWJHrkZBZAM93o0X0Hgyy01HSf7Wd4n1tcqkWf7qUOPN1KxCQqpaGTN0C0EyGZBwqHo3WVvFICXKN5Om6VHO2pXV6F1vkIsQDBYWt7qtvhd2yZCdZBxJF8R0MrZBoKKCDGN4GhnZC4JJbPRnXyMXCgB0ZD"})
+    r = requests.get("https://graph.facebook.com/v2.10/" + req , {"access_token" : "EAACEdEose0cBALZCnl2WkToCXky0mMCZAqGEZBiSUbzURq4qknfUHePZCtiX826z4PR2ZAB55P8onKgrSlCXTZACHPdYlBfYKc426vY2r2C7IeG3ycN5H6rZBmLUEMyP7BL9J8Q3Mgu3xLSDvD14ctFPdOUcczeoUKk9ZCYWZCKToaWxKXDlZBMeiswZAZCGSqIa7WYZD"})
     return r
 #definimos el nombre del archivo donde guardaremos los datos de los candidatos
 path_to_json = '../visor-politico/public/json/Data2.json'
