@@ -102,9 +102,18 @@ _now = datetime.datetime.now()
 _date = (datetime.date.today() - datetime.timedelta(days=dias_chequeo))
 now = time.mktime(datetime.datetime(_now.year, _now.month , _now.day).timetuple()) * 1000
 
+from fuzzywuzzy import fuzz
+
 def cuentaPalabrasClave(tweets):
+    cnt = [0] * len(csvData_words)
     counts = Counter([item for sublist in [x.split() for x in [x.text for x in tweets]] for item in sublist])
-    return [counts[key] for key in csvData_words]
+    for element in counts:
+        for idx,word in enumerate(csvData_words):
+            if fuzz.ratio(element, word) > 79:
+                cnt[idx] += counts[element]
+                break
+    return cnt
+    #return [counts[key] for key in csvData_words]
 
 #Checamos todos los candidatos
 for candidato in candidatos:
@@ -183,7 +192,7 @@ for candidato in candidatos:
         ])
         #Numero de palabras clave
 
-        jsonData[candidato[nombre]]["palabras_clave"] = cuentaPalabrasClave(tweets)
+        jsonData[candidato[nombre]]["palabras_clave"] = [cuentaPalabrasClave(tweets)]
 
     #Si el candidato no tiene twitter, llenamos su informacion basica publica y aclaramos que no tiene twitter
     else:
@@ -200,12 +209,20 @@ for candidato in candidatos:
 
 #Limpiamos el json para borrar fechas repitidas
 
+def unique_by_first_n(n, coll):
+    seen = set()
+    for item in coll:
+        compare = tuple(item[:n])    # Keep only the first `n` elements in the set
+        if compare not in seen:
+            seen.add(compare)
+            yield item
+
 for _key in jsonData:
     for element in jsonData[_key]:
         if type(jsonData[_key][element]) is list and element != 'palabras_clave':
-            element_ = set(map(tuple,jsonData[_key][element]))
-            jsonData[_key][element] = map(list,element_)
+	    jsonData[_key][element] = list(unique_by_first_n(1,jsonData[_key][element]))
             jsonData[_key][element].sort(key=lambda x: x[0])
+
 
 with open(path_to_json, 'w') as outfile:
     json.dump(jsonData, outfile)
